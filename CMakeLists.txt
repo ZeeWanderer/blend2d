@@ -633,4 +633,10 @@ if (NOT BLEND2D_EMBED)
   endif()
 endif()
 
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" OR "x${CMAKE_CXX_SIMULATE_ID}" STREQUAL "xMSVC")
+  add_custom_command(OUTPUT blend2d.vcxproj.new COMMAND cmd /c "${CMAKE_CURRENT_LIST_DIR}/tools/MSVC-disable-exceptions.bat ${CMAKE_CURRENT_LIST_DIR}/tools/repl.bat blend2d.vcxproj ExceptionHandling false" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+  add_custom_target(blend2d_vcxproj DEPENDS blend2d.vcxproj.new)
+  add_dependencies(blend2d blend2d_vcxproj)
+endif()
+
 cmake_policy(POP)
